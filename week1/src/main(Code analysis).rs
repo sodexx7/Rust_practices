@@ -18,16 +18,16 @@
  *
  *  
  * 
- *  For storage? (TO DO confirm)
+ *  For storage? 
  *  Solidity:
  *      Calculate the actual value(key=>value) storage index based on the mapping variable storage index and key, then store the value in the storage index.
  *      For example: below solidity code `values` in storage index is 0. user input("hello",256) then keccak256(0,"hello"), which is the storge index for 256.
  * 
  * 
- *  Rust (TODO)
- *         let mut values: HashMap<String, u64> = HashMap::new();
- *          stack: store the pointer (keys pointer and keys metadata/ values pointer and values metadata) 
- *          heap: acutal data for all keys and all values.
+ *  Rust 
+ *          let mut values: HashMap<String, u64> = HashMap::new();
+ *          key , value in heap. hash value in stack. The algorithme dealing with aloocating memeory and prevent dos.(advanced topic)
+ *          
  * 
  * 
  */

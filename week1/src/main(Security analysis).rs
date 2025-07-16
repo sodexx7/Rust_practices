@@ -1,3 +1,5 @@
+use std::u128;
+
 
 /**
  * 
@@ -28,6 +30,10 @@
  * 
  *     u64::MAX / collat*exchange_rate <=   DECIMALS_SCALAR  <=  (collat as u128 * exchange_rate) 
  * 
+ * 
+ * DECIMALS_SCALAR value is not given. It is an u128 which may have any value except 0.
+ * 
+ * 
  */
 
 // Example as below
@@ -45,16 +51,69 @@
 
  }
 
-//  below less than
- fn main(){
+#[derive(Debug)]
+pub enum MathError {
+        ResultEqualZero,
+        ResultBiggerThanU64
+    }
+pub type MathResult = Result<u128, MathError>;
+
+fn calcAmt(collat:u128,DECIMALS_SCALAR:u128,exchange_rate:u128) -> MathResult {
+
+   let amt: u128 =  (collat as u128 * exchange_rate / DECIMALS_SCALAR) as u128;
+
+    if amt  > u64::MAX as u128 {
+      return Err(MathError::ResultBiggerThanU64);
+    }
+    if amt == 0 {
+      return Err(MathError::ResultEqualZero);
+    }
+
+    Ok(amt)
+
+}  
+
+fn main(){
+    //  Normal
+  //  let collat: u64 = u64::MAX/2;
+  //  let exchange_rate:u128 =   10; 
+  //  let DECIMALS_SCALAR:u128 = 100;
+
+   // ResultBiggerThanU64
+   let collat: u64 = u64::MAX;
+   let exchange_rate:u128 =   10; 
+   let DECIMALS_SCALAR:u128 = 1;
+
+  // ResultEqualZero
+    let collat: u64 = 100;
+   let exchange_rate:u128 =   10; 
+   let DECIMALS_SCALAR:u128 = u128::MAX;
+
+
+   let amt =  calcAmt(collat as u128,DECIMALS_SCALAR,exchange_rate);
+   println!("amt {:?}",amt);
+
+}
+
+
+ fn _panic(){
 
    println!("u64 max {}", u64::MAX);
 
-   let  collat: u64 = 100;
+   let  collat: u64 = u64::MAX;
+   let exchange_rate:u128 = u64::MAX as u128;
+
 
    let exchange_rate:u128 =   10; 
-   let DECIMALS_SCALAR:u128 = 10000;
-   let amt: u128 =  (collat as u128 * exchange_rate / DECIMALS_SCALAR);
+   let DECIMALS_SCALAR:u128 = 1;
+   let amt: u128 =  (collat as u128 * exchange_rate / DECIMALS_SCALAR) as u128;
+
+   // deal with unexpection 
+   if amt  > u64::MAX as u128 {
+      panic!()
+   }
+   
+
    println!("u128 {}",amt);
    println!("u64 {}",amt as u64);
 

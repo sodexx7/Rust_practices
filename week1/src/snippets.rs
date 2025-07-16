@@ -86,7 +86,7 @@ fn snippet_5() {
 /**
  * https://doc.rust-lang.org/book/ch08-03-hash-maps.html
  * 
- * tood more practice in the future. 20250712
+ * todo more practice in the future. 20250712
  * 
  */
 
@@ -97,23 +97,6 @@ fn snippet_5() {
   */
 
  fn _collection_practice1() -> (u32, u32, u32) {
-
-    let vec:Vec<u32> = vec![1,1,9,23,23,23,45];
-    let hashmap:HashMap<u32,u32> = HashMap::new();
-    for i in 0..vec.len() {
-
-        hashmap.insert(i as u32, vec[i]);
-    }
-
-    if vec.len() %2 == 0 {
-
-    } else {
-
-    }
-    let median = vec[]
-    
-
-
 
 
  }
