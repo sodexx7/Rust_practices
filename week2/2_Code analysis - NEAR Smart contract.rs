@@ -18,10 +18,6 @@
  * 
  */
 
-// 1. check the usage for pattern: #[serde(crate = "near_sdk::serde")]
-// 2. #[cfg(test)] [test]
-// 3.  some details check
-// 4. from_index should check whether or not include from_index
 
 // below import near_sdk cate, includes structs,traits,macro, near defined U64
 // BorshDeserialize trait: A data-structure that can be de-serialized from binary format by NBOR.
