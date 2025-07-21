@@ -3,12 +3,13 @@ use near_sdk::{env, near, require, AccountId};
 
 pub type Id = u8;
 
-#[derive(Debug)]
+// #[derive(Debug)]
+// @audit-info to check. how to make below value can be read for a return Contract instance
 #[near(contract_state)]
-pub struct Contract {
-    pub tokens: LookupMap<Id, AccountId>,
-    pub approvals: LookupMap<Id, AccountId>,
-    pub supply: u16,
+ struct Contract {
+    tokens: LookupMap<Id, AccountId>,
+    approvals: LookupMap<Id, AccountId>,
+    supply: u16,
 }
 
 // @audit-info inconsitancy between the init funciton and the following acitons
@@ -102,7 +103,7 @@ mod tests {
         println!("contract.owner_of(0) {:?}",contract.owner_of(0));
         assert_eq!(contract.owner_of(0).unwrap(), admin);
 
-        // print!("{:?}",contract);
+        
     }
 
     #[test]
@@ -139,14 +140,21 @@ mod tests {
 
     }
 
-
-    fn exploit_todo() {
-        let bob: AccountId = "bob.near".parse().unwrap();
+    #[test]
+    fn exploit_AnyoneCanChangeStructValue() {
+        
+        let mut bob: AccountId = "bob.near".parse().unwrap();
         set_context(bob.clone());
         // init
         let admin: AccountId = "admin.near".parse().unwrap();
         let mut contract = Contract::init(admin.clone());
         assert_eq!(contract.owner_of(0).unwrap(), admin);
+
+        println!("contract.supply {}",contract.supply);
+        contract.mint();
+        println!("contract.supply {}",contract.supply);
+        contract.supply = 5; 
+        println!("contract.supply {}",contract.supply);
         
     }
 

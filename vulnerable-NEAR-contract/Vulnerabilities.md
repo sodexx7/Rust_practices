@@ -44,3 +44,17 @@ Solution. if the approver call transfer, should remove the approve data.
 
     }
 ```
+
+## 3. Anyone can change the Struct value instead of the admin
+
+Seems anyone can get contract instance, can directly get Contract struct value and can change it.
+
+```
+let mut contract = Contract::init(admin.clone());
+contract.supply = 5;
+```
+
+POC
+[exploit_AnyoneCanChangeStructValue]()
+
+Solution to check
