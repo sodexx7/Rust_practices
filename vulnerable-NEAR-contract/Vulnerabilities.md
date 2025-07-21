@@ -5,7 +5,7 @@ The id type is u8. but the actual supply type is u16. Each time will convert the
 For example: 256 mint times. admin mint tokenId==0, Bob mint tokenID 1=>255 times, the follwoing mint token id will begin from 0. 256u16==>0u8
 
 POC
-[exploit_BobGetAdminToken](https://github.com/zigtur/vulnerable-NEAR-contract/blob/81e3b4d669f520c7dd1383e8a0a5708368c510d3/src/lib.rs#L92)
+[exploit_BobGetAdminToken](https://github.com/sodexx7/Rust_practices/blob/274a821bdcd388f3d2514130fa4f5887cf7612e9/vulnerable-NEAR-contract/src/lib.rs#L88)
 
 Solution1 , change supply type.
 
@@ -26,7 +26,7 @@ self.tokens.insert(self.supply.to_le_bytes()[0], env::predecessor_account_id());
 When User approve Bob the right to transfer her tokenId, Bob can transfer many times as they want instead of transfer once.
 
 POC
-[exploit_ApproveRightAlwaysHold](https://github.com/zigtur/vulnerable-NEAR-contract/blob/81e3b4d669f520c7dd1383e8a0a5708368c510d3/src/lib.rs#L114)
+[exploit_ApproveRightAlwaysHold](https://github.com/sodexx7/Rust_practices/blob/274a821bdcd388f3d2514130fa4f5887cf7612e9/vulnerable-NEAR-contract/src/lib.rs#L109)
 
 Solution. if the approver call transfer, should remove the approve data.
 
