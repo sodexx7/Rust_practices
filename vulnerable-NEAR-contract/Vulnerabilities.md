@@ -55,6 +55,6 @@ contract.supply = 5;
 ```
 
 POC
-[exploit_AnyoneCanChangeStructValue]()
+[exploit_AnyoneCanChangeStructValue](https://github.com/sodexx7/Rust_practices/blob/2d1278d345327e7fd5df38110b02ef5228edc0ab/vulnerable-NEAR-contract/src/lib.rs#L144)
 
 Solution to check
