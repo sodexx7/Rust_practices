@@ -4,5 +4,3 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-near-sdk = "5.15.1"
-starknet = "0.16.0"

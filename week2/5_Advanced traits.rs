@@ -42,8 +42,7 @@ use std::{fmt::Display};
 // }
 
 
-// for different generic type ? how to implement? 
-// for the specific type, can work.
+
 #[derive(Debug)]
  struct Calculator<T,Y> {
     x: T,
