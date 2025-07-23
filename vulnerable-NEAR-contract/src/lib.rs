@@ -6,7 +6,7 @@ pub type Id = u8;
 // #[derive(Debug)]
 // @audit-info to check. how to make below value can be read for a return Contract instance
 #[near(contract_state)]
- struct Contract {
+pub struct Contract {
     tokens: LookupMap<Id, AccountId>,
     approvals: LookupMap<Id, AccountId>,
     supply: u16,
@@ -141,15 +141,18 @@ mod tests {
     }
 
     #[test]
+    // blew is not a vulunberability, which is the feature for the test. can call struct related funciton
     fn exploit_AnyoneCanChangeStructValue() {
         
-        let mut bob: AccountId = "bob.near".parse().unwrap();
-        set_context(bob.clone());
+        let  bob: AccountId = "bob.near".parse().unwrap();
+        
         // init
         let admin: AccountId = "admin.near".parse().unwrap();
+        set_context(admin.clone());
         let mut contract = Contract::init(admin.clone());
         assert_eq!(contract.owner_of(0).unwrap(), admin);
-
+       
+        set_context(bob.clone());
         println!("contract.supply {}",contract.supply);
         contract.mint();
         println!("contract.supply {}",contract.supply);
