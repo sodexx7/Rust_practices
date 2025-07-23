@@ -1,4 +1,6 @@
 // when apply generic type. impl the related struct should specify the T related with the traits
+// refer_2  Integer represent all usable traits(Add, BitAnd, BitOr, BitXor, Div, Mul, Sub), then reference generic T as Integer
+// refer_1  specify the generic type T along with the needed traits when impling each trait.  
 use std::{fmt::Display, ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Sub}};
 
 // TRAITS //////////////////////////////////////
@@ -49,6 +51,19 @@ struct Calculator<T: Integer> {
     left: T,
     right: T,
 }
+
+// // Implement traits for the Calculator structure
+// impl<T> AdditiveOperations<T> for Calculator<T>
+// where
+//     T: Add<Output = T> + Sub<Output = T> + Copy,
+// {
+//     fn add(&self) -> T {
+//         self.value + self.value2
+//     }
+//     fn subtract(&self) -> T {
+//         self.value - self.value2
+//     }
+// }
 
 impl<T: Integer> AdditiveOperations<T> for Calculator<T> {
     fn addition(&self) -> T {

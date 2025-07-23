@@ -1,4 +1,5 @@
 use std::{fmt::Display};
+use std::ops::{Add, Sub,Mul,Div,BitAnd,BitOr,BitXor};
 /**
  * Build your own "Calculator" Rust program with the following restrictions:
  *   
@@ -28,47 +29,34 @@ use std::{fmt::Display};
  * 
  */
 
-// use std::ops::Add;
 
-// struct AnyNumber;
-
-
-// impl Add<AnyNumber> for AnyNumber {
-//     type Output = AnyNumber;
-
-//     fn add(self, other: AnyNumber) -> AnyNumber {
-//         self + other
-//     }
-// }
-
-
-// for different generic type ? how to implement? 
-// for the specific type, can work.
 #[derive(Debug)]
- struct Calculator<T,Y> {
+ struct Calculator<T> {
     x: T,
-    y: Y,
+    y: T,
  }
 
 
- trait AdditiveOperations<T,Y> {
+ trait AdditiveOperations<T> {
     fn addition(&self) -> T;
     fn substraction(&self) -> T;
 }
 
-trait MultiplicativeOperations<T,Y> {
+trait MultiplicativeOperations<T> {
     fn multiplication(&self) -> T;
     fn division(&self) -> T;
 
 }
 
-trait BinaryOperations<T,Y> {
+trait BinaryOperations<T> {
     fn and(&self) -> T;
     fn or(&self) -> T;
     fn xor(&self) -> T;
 }
 
-impl <T,Y> AdditiveOperations<T,Y> for Calculator<T,Y> {
+impl <T> AdditiveOperations<T> for Calculator<T>
+where T: Add<Output = T> + Sub<Output = T> + Copy,
+{
 
     fn addition(&self) -> T {
        self.x + self.y
@@ -80,7 +68,9 @@ impl <T,Y> AdditiveOperations<T,Y> for Calculator<T,Y> {
     }
 }
 
-impl <T,Y> MultiplicativeOperations<T,Y> for Calculator<T,Y> {
+impl <T> MultiplicativeOperations<T> for Calculator<T> 
+where T:Mul<Output = T> + Div<Output = T> + Copy
+{
     fn multiplication(&self) -> T {
         self.x * self.y
     }
@@ -90,7 +80,9 @@ impl <T,Y> MultiplicativeOperations<T,Y> for Calculator<T,Y> {
     }
 }
 
-impl <T,Y> BinaryOperations<T,Y> for Calculator<T,Y> {
+impl <T> BinaryOperations<T> for Calculator<T>
+where T:BitAnd<Output = T> + BitOr<Output = T> + BitXor<Output = T> +  Copy
+ {
     fn and(&self) -> T {
         self.x & self.y
     }
@@ -105,7 +97,8 @@ impl <T,Y> BinaryOperations<T,Y> for Calculator<T,Y> {
 }
 
 
-fn print_output(calculator:&(impl AdditiveOperations + MultiplicativeOperations + BinaryOperations)) {
+fn print_output<T:Display>(calculator:&(impl AdditiveOperations<T> + MultiplicativeOperations<T> + BinaryOperations<T>)) 
+{
     let mut operations = format!("addition operation {}",calculator.addition());
     operations.push_str(&format!("\n substraction operation {}",calculator.substraction()));
     operations.push_str(&format!("\n multiplication operation {}",calculator.multiplication()));
@@ -117,31 +110,22 @@ fn print_output(calculator:&(impl AdditiveOperations + MultiplicativeOperations 
 }
 
 
-impl <T,Y> Display for Calculator<T,Y> {
-    // How to deal with the math error quesiton. even one operation occur panic, other operations can still operate. ?
+impl <T> Display for Calculator<T> 
+where T:Display
+{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let mut output = format!("(x={:?}, y={:?})", self.x, self.y);
-        output.push_str(&format!("\n addition {:?}",self.addition()));
-        output.push_str(&format!("\n substraction {:?}",self.substraction()));
-        output.push_str(&format!("\n multiplication {}",self.multiplication()));
-        output.push_str(&format!("\n division {}",self.division()));
-        output.push_str(&format!("\n and {}",self.and()));
-        output.push_str(&format!("\n or {}",self.or()));
-        output.push_str(&format!("\n xor {}",self.xor()));
-        write!(f,"{}",output)
+        write!(f,"{}",format!("(x={}, y={})", self.x, self.y))
 
     }
-   
  }
 
 
  fn main(){
 
     println!("{}",i32::MAX);
-    let calculator: Calculator<i32, i32> = Calculator {x:100,y:200};
+    let calculator: Calculator<i32> = Calculator {x:100,y:200};
     println!("calculator: {}", calculator); 
     println!("Apply print_output....................................");
     print_output(&calculator);
-
 
  }

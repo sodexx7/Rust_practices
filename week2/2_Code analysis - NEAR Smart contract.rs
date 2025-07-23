@@ -62,6 +62,7 @@ pub struct PostedMessage {
 // Above traits based on the near sdk cate. should add in below.
 #[borsh(crate = "near_sdk::borsh")]
 // Define a public struct Contract, includes one message whose type is Vector<PostedMessage>, PostedMessage also is custome defined struct.
+// storage public funciton
 pub struct Contract {
     messages: Vector<PostedMessage>,
 }
@@ -78,6 +79,7 @@ impl Default for Contract {
 // #[near_bindgen] seems same as #[near_bindgen] fro struct Contract. add necessar near block-chain related functionality.
 #[near_bindgen]
 impl Contract {
+
     // Mark this function accpet near token
     #[payable]
     // only accpet mutable reference Contract, which means can change the Contract iteself data.
@@ -157,7 +159,7 @@ mod tests {
         // when want to get the actual vaule for the reference, should use dereference. * ????
         assert!(*total == 3);
         // Only get messages from 2 to 4. actually return [2,3]. the fianl resut return 3th
-        let last_message: &&PostedMessage = &contract.get_messages(Some(U64::from(1)), Some(U64::from(2)))[1];
+        let last_message: &&PostedMessage = &contract.get_messages(Some(U64::from(1)), Some(U64::from(2)))[1]; 
         // no deposit token, the premium still as false
         assert_eq!(last_message.premium, false);
         // Based on above analyze, the 3th 
